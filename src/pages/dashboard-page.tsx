@@ -14,41 +14,45 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-
-const kpiCards = [
-  {
-    title: "Pacientes ativos",
-    description: "Últimos 30 dias",
-    value: "1.284",
-    delta: "+12% vs. mês anterior",
-    icon: HeartPulse,
-  },
-  {
-    title: "Consultas agendadas",
-    description: "Esta semana",
-    value: "186",
-    delta: "+4% vs. semana anterior",
-    icon: Activity,
-  },
-  {
-    title: "Taxa de adesão",
-    description: "Planos de cuidado",
-    value: "87%",
-    delta: "+2,1 p.p.",
-    icon: TrendingUp,
-  },
-] as const
+import { useDashboard } from "@/hooks/use-dashboard"
 
 const cardInteractive =
   "cursor-pointer transition-transform duration-300 ease-out hover:scale-[1.02] active:scale-[0.99]"
 
 export function DashboardPage() {
+  const { totalPatients, totalAppointments, isLoading } = useDashboard()
+
+  const kpiCards = [
+    {
+      title: "Pacientes ativos",
+      description: "Últimos 30 dias",
+      value: isLoading ? "—" : String(totalPatients),
+      delta: "+12% vs. mês anterior",
+      icon: HeartPulse,
+    },
+    {
+      title: "Consultas agendadas",
+      description: "Esta semana",
+      value: isLoading ? "—" : String(totalAppointments),
+      delta: "+4% vs. semana anterior",
+      icon: Activity,
+    },
+    {
+      title: "Taxa de adesão",
+      description: "Planos de cuidado",
+      value: "87%",
+      delta: "+2,1 p.p.",
+      icon: TrendingUp,
+    },
+  ]
+
   return (
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
         <p className="mt-1 text-muted-foreground">
-          Visão geral simulada — aqui entrarão gráficos e indicadores em tempo real.
+          Visão geral simulada — aqui entrarão gráficos e indicadores em tempo
+          real.
         </p>
       </div>
 
@@ -63,7 +67,9 @@ export function DashboardPage() {
               <Icon className="size-5 shrink-0 text-primary" aria-hidden />
             </CardHeader>
             <CardContent>
-              <p className="text-3xl font-semibold tabular-nums tracking-tight">{value}</p>
+              <p className="text-3xl font-semibold tabular-nums tracking-tight">
+                {value}
+              </p>
               <p className="mt-2 text-xs text-muted-foreground">{delta}</p>
             </CardContent>
           </Card>
@@ -75,9 +81,13 @@ export function DashboardPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <LineChart className="size-5 text-primary" aria-hidden />
-              <CardTitle className="text-base font-medium">Tendência de consultas</CardTitle>
+              <CardTitle className="text-base font-medium">
+                Tendência de consultas
+              </CardTitle>
             </div>
-            <CardDescription>Volume diário (placeholder para gráfico de linhas)</CardDescription>
+            <CardDescription>
+              Volume diário (placeholder para gráfico de linhas)
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div
@@ -100,9 +110,13 @@ export function DashboardPage() {
           <CardHeader>
             <div className="flex items-center gap-2">
               <PieChart className="size-5 text-primary" aria-hidden />
-              <CardTitle className="text-base font-medium">Distribuição por especialidade</CardTitle>
+              <CardTitle className="text-base font-medium">
+                Distribuição por especialidade
+              </CardTitle>
             </div>
-            <CardDescription>Placeholder para gráfico de pizza ou rosca</CardDescription>
+            <CardDescription>
+              Placeholder para gráfico de pizza ou rosca
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <div
