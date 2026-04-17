@@ -1,12 +1,4 @@
-import { CalendarClock } from "lucide-react"
-
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import {
   Dialog,
   DialogClose,
@@ -15,10 +7,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { AppointmentCard } from "./appointment-card"
 import type { Appointment } from "@/utils/types"
-
-const cardInteractive =
-  "w-full cursor-pointer transition-transform duration-300 ease-out hover:scale-[1.01] active:scale-[0.99]"
 
 function formatDateTime(date: Date) {
   return date.toLocaleString("pt-BR", {
@@ -43,25 +33,7 @@ export function AppointmentModal({ appointment }: AppointmentModalProps) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Card className={cardInteractive}>
-          <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-            <div className="space-y-1">
-              <p className="text-xs font-medium text-muted-foreground">Médico</p>
-              <CardTitle className="text-base font-medium">{doctorName}</CardTitle>
-            </div>
-            <CalendarClock className="size-5 shrink-0 text-primary" aria-hidden />
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <div>
-              <p className="text-xs font-medium text-muted-foreground">Paciente</p>
-              <p className="text-sm">{patientName}</p>
-            </div>
-            <div>
-              <p className="text-xs font-medium text-muted-foreground">Data e hora</p>
-              <p className="text-sm tabular-nums">{when}</p>
-            </div>
-          </CardContent>
-        </Card>
+        <AppointmentCard appointment={appointment} />
       </DialogTrigger>
       <DialogContent className="gap-6 p-8 sm:max-w-md sm:p-10">
         <DialogHeader>
