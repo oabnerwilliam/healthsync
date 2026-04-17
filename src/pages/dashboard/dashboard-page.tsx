@@ -1,3 +1,4 @@
+import type { LucideIcon } from "lucide-react"
 import {
   Activity,
   BarChart3,
@@ -6,6 +7,7 @@ import {
   PieChart,
   TrendingUp,
 } from "lucide-react"
+import { Link } from "react-router-dom"
 
 import {
   Card,
@@ -23,13 +25,21 @@ const cardInteractive =
 export function DashboardPage() {
   const { totalPatients, totalAppointments, isLoading } = useDashboard()
 
-  const kpiCards = [
+  const kpiCards: Array<{
+    title: string
+    description: string
+    value: string
+    delta: string
+    icon: LucideIcon
+    to?: string
+  }> = [
     {
       title: "Pacientes ativos",
       description: "Últimos 30 dias",
       value: isLoading ? "—" : String(totalPatients),
       delta: "+12% vs. mês anterior",
       icon: HeartPulse,
+      to: "/dashboard/patients",
     },
     {
       title: "Consultas agendadas",
@@ -58,23 +68,37 @@ export function DashboardPage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {kpiCards.map(({ title, description, value, delta, icon: Icon }) => (
-          <Card key={title} className={cardInteractive}>
-            <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-              <div className="space-y-1">
-                <CardTitle className="text-base font-medium">{title}</CardTitle>
-                <CardDescription>{description}</CardDescription>
-              </div>
-              <Icon className="size-5 shrink-0 text-primary" aria-hidden />
-            </CardHeader>
-            <CardContent>
-              <p className="text-3xl font-semibold tabular-nums tracking-tight">
-                {value}
-              </p>
-              <p className="mt-2 text-xs text-muted-foreground">{delta}</p>
-            </CardContent>
-          </Card>
-        ))}
+        {kpiCards.map(({ title, description, value, delta, icon: Icon, to }) => {
+          const card = (
+            <Card className={cardInteractive}>
+              <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+                <div className="space-y-1">
+                  <CardTitle className="text-base font-medium">{title}</CardTitle>
+                  <CardDescription>{description}</CardDescription>
+                </div>
+                <Icon className="size-5 shrink-0 text-primary" aria-hidden />
+              </CardHeader>
+              <CardContent>
+                <p className="text-3xl font-semibold tabular-nums tracking-tight">
+                  {value}
+                </p>
+                <p className="mt-2 text-xs text-muted-foreground">{delta}</p>
+              </CardContent>
+            </Card>
+          )
+
+          return to ? (
+            <Link
+              key={title}
+              to={to}
+              className="block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            >
+              {card}
+            </Link>
+          ) : (
+            <div key={title}>{card}</div>
+          )
+        })}
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
