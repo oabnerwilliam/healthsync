@@ -14,7 +14,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { useDashboard } from "@/hooks/use-dashboard"
+
+import { useDashboard } from "./hooks/use-dashboard"
 
 const cardInteractive =
   "cursor-pointer transition-transform duration-300 ease-out hover:scale-[1.02] active:scale-[0.99]"

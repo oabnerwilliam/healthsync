@@ -1,4 +1,4 @@
-﻿export function AboutPage() {
+export function AboutPage() {
   return (
     <div className="space-y-2">
       <h1 className="text-2xl font-semibold tracking-tight">Sobre</h1>

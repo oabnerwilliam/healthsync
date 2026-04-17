@@ -1,4 +1,4 @@
-﻿import { useQuery } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 import { parseAsString, useQueryState } from "nuqs"
 
 import { Button } from "@/components/ui/button"
