@@ -1,60 +1,31 @@
-import { useQuery } from "@tanstack/react-query"
-import { parseAsString, useQueryState } from "nuqs"
+import { Link } from "react-router-dom"
 
 import { Button } from "@/components/ui/button"
 
 export function HomePage() {
-  const [q, setQ] = useQueryState("q", parseAsString.withDefault(""))
-
-  const health = useQuery({
-    queryKey: ["healthcheck"],
-    queryFn: async () => {
-      await new Promise((r) => setTimeout(r, 150))
-      return { ok: true as const }
-    },
-  })
-
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Healthsync</h1>
-        <p className="mt-1 text-muted-foreground">
-          Vite + React + Tailwind 4 + shadcn + React Router + TanStack Query + nuqs.
+    <div className="mx-auto space-y-8">
+      <div className="space-y-4">
+        <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+          Healthsync
+        </h1>
+        <p className="text-lg leading-relaxed text-muted-foreground">
+          Uma visão unificada da sua operação em saúde: acompanhe pacientes,
+          consultas agendadas e indicadores em um só lugar. Menos planilhas
+          espalhadas, mais clareza para decidir com tranquilidade.
+        </p>
+        <p className="leading-relaxed text-muted-foreground">
+          Use o painel para ver números em tempo real com os dados de exemplo,
+          explorar a lista de pacientes e revisar cada consulta com médico,
+          paciente e horário — tudo pensado para crescer junto com o seu fluxo.
         </p>
       </div>
 
-      <section className="space-y-2 rounded-lg border border-border bg-card p-4 text-card-foreground">
-        <h2 className="text-sm font-medium">TanStack Query</h2>
-        <p className="text-sm text-muted-foreground">
-          Status:{" "}
-          {health.isPending
-            ? "carregando…"
-            : health.isError
-              ? "erro"
-              : health.data?.ok
-                ? "ok"
-                : "—"}
-        </p>
-        <Button type="button" variant="outline" size="sm" onClick={() => void health.refetch()}>
-          Refetch
+      <div className="flex flex-wrap gap-3">
+        <Button asChild size="lg">
+          <Link to="/dashboard">Ir para o dashboard</Link>
         </Button>
-      </section>
-
-      <section className="space-y-2 rounded-lg border border-border bg-card p-4 text-card-foreground">
-        <h2 className="text-sm font-medium">nuqs (URL)</h2>
-        <p className="text-sm text-muted-foreground">
-          Parâmetro <code className="rounded bg-muted px-1 py-0.5 font-mono text-xs">q</code>:{" "}
-          <span className="font-mono">{q || "(vazio)"}</span>
-        </p>
-        <div className="flex flex-wrap gap-2">
-          <Button type="button" size="sm" onClick={() => void setQ("demo")}>
-            Definir q=demo
-          </Button>
-          <Button type="button" size="sm" variant="secondary" onClick={() => void setQ(null)}>
-            Limpar q
-          </Button>
-        </div>
-      </section>
+      </div>
     </div>
   )
 }
