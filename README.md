@@ -1,73 +1,86 @@
-# React + TypeScript + Vite
+# Healthsync
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação web para **organizar a operação em saúde** em um só lugar: indicadores no painel, cadastro de pacientes e agenda de consultas, com dados de exemplo (mocks) prontos para desenvolvimento e demonstração.
 
-Currently, two official plugins are available:
+O objetivo é oferecer uma base clara para evoluir rumo a um produto real — integrações com API, autenticação e persistência podem ser acrescentadas sem redefinir a experiência do usuário.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## O que você encontra aqui
 
-## React Compiler
+- **Início** — Apresentação do produto e atalho para o painel.
+- **Dashboard** — Visão geral com indicadores (totais de pacientes e consultas, placeholders para gráficos). Os cards de pacientes e consultas levam às listagens.
+- **Pacientes** (`/dashboard/patients`) — Lista em grade; cada card abre um **modal** com detalhes básicos (nome).
+- **Consultas** (`/dashboard/appointments`) — Lista em coluna com médico, paciente e data/hora; cada item abre um **modal** com detalhes da consulta.
+- **Sobre** — Página estática de exemplo.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Os dados vêm de **mocks** em TypeScript (`src/utils/mocks.ts`), carregados via funções assíncronas (`src/utils/functions.ts`) e **TanStack Query** nos hooks por página.
 
-## Expanding the ESLint configuration
+## Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+| Área | Tecnologia |
+|------|------------|
+| UI | React 19, TypeScript, Tailwind CSS 4 |
+| Roteamento | React Router 7 |
+| Dados remotos (mock) | TanStack Query 5 |
+| Componentes | shadcn/ui, Radix, Lucide |
+| Build | Vite 8 |
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Pré-requisitos
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- [Node.js](https://nodejs.org/) 20 ou superior (recomendado)
+- [npm](https://docs.npmjs.com/cli/v10/commands/npm) (vem com o Node) ou [pnpm](https://pnpm.io/), se preferir
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Configuração e execução
+
+Clone o repositório e instale as dependências na raiz do projeto:
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Scripts disponíveis
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Comando | Descrição |
+|---------|-----------|
+| `npm run dev` | Servidor de desenvolvimento com hot reload (Vite). |
+| `npm run build` | Verificação TypeScript (`tsc -b`) + build de produção. |
+| `npm run preview` | Servir a pasta `dist` localmente após o build. |
+| `npm run lint` | Executar o ESLint no projeto. |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Para desenvolver:
+
+```bash
+npm run dev
 ```
+
+Abra o endereço indicado no terminal (em geral `http://localhost:5173`).
+
+### Componentes shadcn (opcional)
+
+Para adicionar componentes do [shadcn/ui](https://ui.shadcn.com/) com CLI, o `package.json` inclui um script de conveniência. Se usar **pnpm**:
+
+```bash
+pnpm run components
+```
+
+Com **npm**, o equivalente pode ser:
+
+```bash
+npx shadcn@latest add <componente>
+```
+
+## Estrutura do código (resumo)
+
+```
+src/
+├── components/
+│   └── ui/          # Componentes shadcn (Button, Card, Dialog, …)
+├── layouts/         # Layout raiz (cabeçalho, navegação)
+├── pages/           # Rotas por domínio (home, dashboard, patients, appointments, about)
+├── utils/           # Tipos, mocks e funções de “API” simulada
+├── main.tsx         # Entrada, providers (Query Client, nuqs, router)
+└── router.tsx       # Definição de rotas
+```
+
+## Licença
+
+Projeto privado — consulte os responsáveis pelo repositório para uso e distribuição.
