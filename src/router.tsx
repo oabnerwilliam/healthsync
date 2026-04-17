@@ -5,6 +5,7 @@ import { AboutPage } from "@/pages/about/about-page"
 import { DashboardLayout } from "@/pages/dashboard/dashboard-layout"
 import { DashboardPage } from "@/pages/dashboard/dashboard-page"
 import { HomePage } from "@/pages/home/home-page"
+import { AppointmentsPage } from "@/pages/appointments/appointments-page"
 import { PatientsPage } from "@/pages/patients/patients-page"
 
 export const router = createBrowserRouter([
@@ -20,6 +21,7 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <DashboardPage /> },
           { path: "patients", element: <PatientsPage /> },
+          { path: "appointments", element: <AppointmentsPage /> },
         ],
       },
     ],

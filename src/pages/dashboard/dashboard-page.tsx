@@ -47,6 +47,7 @@ export function DashboardPage() {
       value: isLoading ? "—" : String(totalAppointments),
       delta: "+4% vs. semana anterior",
       icon: Activity,
+      to: "/dashboard/appointments",
     },
     {
       title: "Taxa de adesão",
