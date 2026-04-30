@@ -69,37 +69,41 @@ export function DashboardPage() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {kpiCards.map(({ title, description, value, delta, icon: Icon, to }) => {
-          const card = (
-            <Card className={cardInteractive}>
-              <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
-                <div className="space-y-1">
-                  <CardTitle className="text-base font-medium">{title}</CardTitle>
-                  <CardDescription>{description}</CardDescription>
-                </div>
-                <Icon className="size-5 shrink-0 text-primary" aria-hidden />
-              </CardHeader>
-              <CardContent>
-                <p className="text-3xl font-semibold tabular-nums tracking-tight">
-                  {value}
-                </p>
-                <p className="mt-2 text-xs text-muted-foreground">{delta}</p>
-              </CardContent>
-            </Card>
-          )
+        {kpiCards.map(
+          ({ title, description, value, delta, icon: Icon, to }) => {
+            const card = (
+              <Card className={cardInteractive}>
+                <CardHeader className="flex flex-row items-start justify-between space-y-0 pb-2">
+                  <div className="space-y-1">
+                    <CardTitle className="text-base font-medium">
+                      {title}
+                    </CardTitle>
+                    <CardDescription>{description}</CardDescription>
+                  </div>
+                  <Icon className="size-5 shrink-0 text-primary" aria-hidden />
+                </CardHeader>
+                <CardContent>
+                  <p className="text-3xl font-semibold tabular-nums tracking-tight">
+                    {value}
+                  </p>
+                  <p className="mt-2 text-xs text-muted-foreground">{delta}</p>
+                </CardContent>
+              </Card>
+            )
 
-          return to ? (
-            <Link
-              key={title}
-              to={to}
-              className="block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-            >
-              {card}
-            </Link>
-          ) : (
-            <div key={title}>{card}</div>
-          )
-        })}
+            return to ? (
+              <Link
+                key={title}
+                to={to}
+                className="block rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+              >
+                {card}
+              </Link>
+            ) : (
+              <div key={title}>{card}</div>
+            )
+          },
+        )}
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
