@@ -1,16 +1,44 @@
 export interface User {
-  firstName: string;
-  lastName: string;
+  firstName: string
+  lastName: string
+  role: UserRole
 }
 
-export interface Doctor extends User {}
+export type UserRole = "DOCTOR" | "PATIENT" | "ADMIN"
 
-export interface Patient extends User {}
+export interface Doctor extends User {
+  id: string
+}
 
-export interface Admin extends User {}
+export interface Patient extends User {
+  id: string
+}
+
+export interface Admin extends User {
+  id: string
+}
+
+export interface PatientResponse {
+  user: User
+  id: string
+}
+
+export interface DoctorResponse {
+  id: string
+  user: User
+}
+
+export interface AppointmentResponse {
+  id: string
+  doctorId: string
+  patientId: string
+  date: string
+  doctor: DoctorResponse
+  patient: PatientResponse
+}
 
 export type Appointment = {
-  doctor: Doctor;
-  patient: Patient;
-  date: Date;
-};
+  doctor: Doctor
+  patient: Patient
+  date: string
+}

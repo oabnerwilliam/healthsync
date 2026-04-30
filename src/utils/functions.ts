@@ -1,23 +1,66 @@
-import type { Admin, Appointment, Doctor, Patient } from "./types";
-import {
-  mockAdmins,
-  mockAppointments,
-  mockDoctors,
-  mockPatients,
-} from "./mocks";
+import type { AppointmentResponse } from "./types"
+import type { PatientResponse } from "./types"
 
-export async function getDoctors(): Promise<Doctor[]> {
-  return mockDoctors;
+const request = async <T>(url: string, options?: RequestInit): Promise<T> => {
+  const response = await fetch(`${import.meta.env.VITE_API_URL}${url}`, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+  if (!response.ok) {
+    throw new Error(`Erro ao buscar dados: ${response.status}`)
+  }
+  return response.json()
 }
 
-export async function getPatients(): Promise<Patient[]> {
-  return mockPatients;
+export const getPatients = async (): Promise<PatientResponse[]> => {
+  try {
+    const data = await request<PatientResponse[]>("/patients", {
+      method: "GET",
+    })
+    return data
+  } catch (error) {
+    console.error(error)
+    return []
+  }
 }
 
-export async function getAdmins(): Promise<Admin[]> {
-  return mockAdmins;
+export const createPatient = async (patient: {
+  firstName: string
+  lastName: string
+}) => {
+  try {
+    const data = await request("/patients", {
+      method: "POST",
+      body: JSON.stringify(patient),
+    })
+    return data
+  } catch (error) {
+    console.error(error)
+    return null
+  }
 }
 
-export async function getAppointments(): Promise<Appointment[]> {
-  return mockAppointments;
+export const deletePatient = async (id: string) => {
+  try {
+    const data = await request(`/patients/${id}`, {
+      method: "DELETE",
+    })
+    return data
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}
+
+export const getAppointments = async (): Promise<AppointmentResponse[]> => {
+  try {
+    return request<AppointmentResponse[]>("/appointments", {
+      method: "GET",
+    })
+  } catch (error) {
+    console.error(error)
+    return []
+  }
 }
