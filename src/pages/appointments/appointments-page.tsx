@@ -1,16 +1,17 @@
 import { Link } from "react-router-dom"
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-} from "@/components/ui/card"
+import { Card, CardContent, CardHeader } from "@/components/ui/card"
 
 import { AppointmentModal } from "./components/appointment-modal"
 import { useAppointments } from "./hooks/use-appointments"
 
 export function AppointmentsPage() {
-  const { data: appointments, isPending } = useAppointments()
+  const { data: appointmentsData, isPending } = useAppointments()
+  const appointments = appointmentsData?.map((appointment) => ({
+    doctor: appointment.doctor.user,
+    patient: appointment.patient.user,
+    date: appointment.date,
+  }))
 
   return (
     <div className="space-y-8">
@@ -21,7 +22,9 @@ export function AppointmentsPage() {
         >
           ← Voltar ao dashboard
         </Link>
-        <h1 className="mt-4 text-2xl font-semibold tracking-tight">Consultas</h1>
+        <h1 className="mt-4 text-2xl font-semibold tracking-tight">
+          Consultas
+        </h1>
         <p className="mt-1 text-muted-foreground">
           Agendamentos a partir dos mocks (TanStack Query).
         </p>
@@ -43,7 +46,7 @@ export function AppointmentsPage() {
             ))
           : appointments?.map((appointment) => (
               <AppointmentModal
-                key={`${appointment.doctor.firstName}-${appointment.patient.firstName}-${appointment.date.getTime()}`}
+                key={`${appointment.doctor.firstName}-${appointment.patient.firstName}-${appointment.date}`}
                 appointment={appointment}
               />
             ))}

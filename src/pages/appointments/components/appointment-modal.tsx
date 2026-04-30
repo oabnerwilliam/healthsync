@@ -8,27 +8,33 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { AppointmentCard } from "./appointment-card"
-import type { Appointment } from "@/utils/types"
-
-function formatDateTime(date: Date) {
-  return date.toLocaleString("pt-BR", {
-    dateStyle: "short",
-    timeStyle: "short",
-  })
-}
+import type { User } from "../../../utils/types"
 
 function personName(p: { firstName: string; lastName: string }) {
   return `${p.firstName} ${p.lastName}`
 }
 
 type AppointmentModalProps = {
-  appointment: Appointment
+  appointment: {
+    doctor: User
+    patient: User
+    date: string
+  }
 }
 
 export function AppointmentModal({ appointment }: AppointmentModalProps) {
-  const doctorName = personName(appointment.doctor)
-  const patientName = personName(appointment.patient)
-  const when = formatDateTime(appointment.date)
+  const doctorName = personName({
+    firstName: appointment.doctor.firstName,
+    lastName: appointment.doctor.lastName,
+  })
+  const patientName = personName({
+    firstName: appointment.patient.firstName,
+    lastName: appointment.patient.lastName,
+  })
+  const when = new Date(appointment.date).toLocaleString("pt-BR", {
+    dateStyle: "short",
+    timeStyle: "short",
+  })
 
   return (
     <Dialog>
@@ -45,11 +51,15 @@ export function AppointmentModal({ appointment }: AppointmentModalProps) {
             <p className="mt-1">{doctorName}</p>
           </div>
           <div>
-            <p className="text-xs font-medium text-muted-foreground">Paciente</p>
+            <p className="text-xs font-medium text-muted-foreground">
+              Paciente
+            </p>
             <p className="mt-1">{patientName}</p>
           </div>
           <div>
-            <p className="text-xs font-medium text-muted-foreground">Data e hora</p>
+            <p className="text-xs font-medium text-muted-foreground">
+              Data e hora
+            </p>
             <p className="mt-1 tabular-nums">{when}</p>
           </div>
         </div>
