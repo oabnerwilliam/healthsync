@@ -33,6 +33,10 @@ const inputClassName = cn(
 export function PatientsPage() {
   const [open, setOpen] = useState(false)
 
+  const { register, handleSubmit, reset } = useForm<CreatePatientFormValues>({
+    defaultValues: { firstName: "", lastName: "" },
+  })
+
   const queryClient = useQueryClient()
   const createPatientMutation = useMutation({
     mutationFn: async (data: CreatePatientFormValues) =>
@@ -40,12 +44,9 @@ export function PatientsPage() {
     onSuccess: async () => {
       setOpen(false)
       toast.success("Paciente criado com sucesso")
+      reset()
       await queryClient.refetchQueries({ queryKey: ["patients"] })
     },
-  })
-
-  const { register, handleSubmit } = useForm<CreatePatientFormValues>({
-    defaultValues: { firstName: "", lastName: "" },
   })
 
   const onSubmit = async (data: CreatePatientFormValues) => {
