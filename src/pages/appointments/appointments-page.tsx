@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 
 import { AppointmentModal } from "./components/appointment-modal"
 import { useAppointments } from "./hooks/use-appointments"
+import { CreateAppointmentModal } from "./components/create-appointment-modal"
 
 export function AppointmentsPage() {
   const { data: appointmentsData, isPending } = useAppointments()
@@ -15,19 +16,19 @@ export function AppointmentsPage() {
 
   return (
     <div className="space-y-8">
-      <div>
-        <Link
-          to="/dashboard"
-          className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
-        >
-          ← Voltar ao dashboard
-        </Link>
-        <h1 className="mt-4 text-2xl font-semibold tracking-tight">
-          Consultas
-        </h1>
-        <p className="mt-1 text-muted-foreground">
-          Agendamentos a partir dos mocks (TanStack Query).
-        </p>
+      <div className="flex justify-between items-center">
+        <div>
+          <Link
+            to="/dashboard"
+            className="text-sm text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+          >
+            ← Voltar ao dashboard
+          </Link>
+          <h1 className="mt-4 text-2xl font-semibold tracking-tight">
+            Consultas
+          </h1>
+        </div>
+        <CreateAppointmentModal />
       </div>
 
       <div className="flex w-full flex-col gap-4">

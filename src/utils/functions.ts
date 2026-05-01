@@ -1,4 +1,4 @@
-import type { AppointmentResponse } from "./types"
+import type { AppointmentResponse, DoctorResponse } from "./types"
 import type { PatientResponse } from "./types"
 
 const request = async <T>(url: string, options?: RequestInit): Promise<T> => {
@@ -54,6 +54,18 @@ export const deletePatient = async (id: string) => {
   }
 }
 
+export const getDoctors = async (): Promise<DoctorResponse[]> => {
+  try {
+    const data = await request<DoctorResponse[]>("/doctors", {
+      method: "GET",
+    })
+    return data
+  } catch (error) {
+    console.error(error)
+    return []
+  }
+}
+
 export const getAppointments = async (): Promise<AppointmentResponse[]> => {
   try {
     return request<AppointmentResponse[]>("/appointments", {
@@ -62,5 +74,22 @@ export const getAppointments = async (): Promise<AppointmentResponse[]> => {
   } catch (error) {
     console.error(error)
     return []
+  }
+}
+
+export const createAppointment = async (appointment: {
+  doctorId: string
+  patientId: string
+  date: string
+}) => {
+  try {
+    const data = await request("/appointments", {
+      method: "POST",
+      body: JSON.stringify(appointment),
+    })
+    return data
+  } catch (error) {
+    console.error(error)
+    return null
   }
 }

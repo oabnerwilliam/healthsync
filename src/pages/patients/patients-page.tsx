@@ -24,9 +24,6 @@ export function PatientsPage() {
           <h1 className="mt-4 text-2xl font-semibold tracking-tight">
             Pacientes
           </h1>
-          <p className="mt-1 text-muted-foreground">
-            Listagem a partir dos mocks (TanStack Query).
-          </p>
         </div>
         <CreatePatientModal />
       </div>
