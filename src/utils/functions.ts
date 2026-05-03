@@ -93,3 +93,15 @@ export const createAppointment = async (appointment: {
     return null
   }
 }
+
+export const deleteAppointment = async (id: string) => {
+  try {
+    const data = await request<AppointmentResponse>(`/appointments/${id}`, {
+      method: "DELETE",
+    })
+    return data
+  } catch (error) {
+    console.error(error)
+    return null
+  }
+}

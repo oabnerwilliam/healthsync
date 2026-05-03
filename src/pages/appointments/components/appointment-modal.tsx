@@ -9,6 +9,10 @@ import {
 } from "@/components/ui/dialog"
 import { AppointmentCard } from "./appointment-card"
 import type { User } from "../../../utils/types"
+import { deleteAppointment } from "../../../utils/functions"
+import { toast } from "sonner"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useState } from "react"
 
 function personName(p: { firstName: string; lastName: string }) {
   return `${p.firstName} ${p.lastName}`
@@ -16,6 +20,7 @@ function personName(p: { firstName: string; lastName: string }) {
 
 type AppointmentModalProps = {
   appointment: {
+    id: string
     doctor: User
     patient: User
     date: string
@@ -23,6 +28,9 @@ type AppointmentModalProps = {
 }
 
 export function AppointmentModal({ appointment }: AppointmentModalProps) {
+  const [open, setOpen] = useState(false)
+  const queryClient = useQueryClient()
+
   const doctorName = personName({
     firstName: appointment.doctor.firstName,
     lastName: appointment.doctor.lastName,
@@ -36,8 +44,17 @@ export function AppointmentModal({ appointment }: AppointmentModalProps) {
     timeStyle: "short",
   })
 
+  const deleteAppointmentMutation = useMutation({
+    mutationFn: async (id: string) => await deleteAppointment(id),
+    onSuccess: async () => {
+      setOpen(false)
+      toast.success("Consulta excluída com sucesso")
+      await queryClient.refetchQueries({ queryKey: ["appointments"] })
+    },
+  })
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <AppointmentCard appointment={appointment} />
       </DialogTrigger>
@@ -69,8 +86,14 @@ export function AppointmentModal({ appointment }: AppointmentModalProps) {
               Fechar
             </Button>
           </DialogClose>
-          <Button type="button" variant="default">
-            Ver Mais
+          <Button
+            type="button"
+            variant="destructive"
+            onClick={async () => {
+              await deleteAppointmentMutation.mutateAsync(appointment.id)
+            }}
+          >
+            Excluir
           </Button>
         </div>
       </DialogContent>

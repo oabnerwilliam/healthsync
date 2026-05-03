@@ -13,7 +13,7 @@ import { createPatient } from "../../../utils/functions"
 import { toast } from "sonner"
 import { cn } from "../../../lib/utils"
 
-const inputClassName = cn(
+export const inputClassName = cn(
   "flex h-9 w-full rounded-lg border border-border bg-background px-3 py-1 text-sm shadow-xs transition-colors",
   "placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
   "disabled:cursor-not-allowed disabled:opacity-50",

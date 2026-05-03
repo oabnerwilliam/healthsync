@@ -9,6 +9,7 @@ import { CreateAppointmentModal } from "./components/create-appointment-modal"
 export function AppointmentsPage() {
   const { data: appointmentsData, isPending } = useAppointments()
   const appointments = appointmentsData?.map((appointment) => ({
+    id: appointment.id,
     doctor: appointment.doctor.user,
     patient: appointment.patient.user,
     date: appointment.date,
@@ -32,25 +33,30 @@ export function AppointmentsPage() {
       </div>
 
       <div className="flex w-full flex-col gap-4">
-        {isPending
-          ? Array.from({ length: 4 }).map((_, i) => (
-              <Card key={i} className="w-full animate-pulse">
-                <CardHeader>
-                  <div className="h-4 w-40 rounded bg-muted" />
-                  <div className="mt-3 h-3 w-full max-w-md rounded bg-muted" />
-                  <div className="mt-2 h-3 w-32 rounded bg-muted" />
-                </CardHeader>
-                <CardContent>
-                  <div className="h-4 w-48 rounded bg-muted" />
-                </CardContent>
-              </Card>
-            ))
-          : appointments?.map((appointment) => (
-              <AppointmentModal
-                key={`${appointment.doctor.firstName}-${appointment.patient.firstName}-${appointment.date}`}
-                appointment={appointment}
-              />
-            ))}
+        {isPending ? (
+          Array.from({ length: 4 }).map((_, i) => (
+            <Card key={i} className="w-full animate-pulse">
+              <CardHeader>
+                <div className="h-4 w-40 rounded bg-muted" />
+                <div className="mt-3 h-3 w-full max-w-md rounded bg-muted" />
+                <div className="mt-2 h-3 w-32 rounded bg-muted" />
+              </CardHeader>
+              <CardContent>
+                <div className="h-4 w-48 rounded bg-muted" />
+              </CardContent>
+            </Card>
+          ))
+        ) : appointments?.length === 0 ? (
+          <div className="flex justify-center items-center h-full">
+            <p className="text-sm text-muted-foreground">
+              Nenhuma consulta encontrada
+            </p>
+          </div>
+        ) : (
+          appointments?.map((appointment) => (
+            <AppointmentModal key={appointment.id} appointment={appointment} />
+          ))
+        )}
       </div>
     </div>
   )
